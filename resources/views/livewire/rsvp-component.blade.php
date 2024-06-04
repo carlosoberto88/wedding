@@ -4,6 +4,7 @@
             <h3>Que estas esperando?</h3>
             <p>Recuerda confirmar antes del 15 de agosto!</p>
             <div id="rsvp-form" class="rsvp-form" action="" method="POST" autocomplete="off">
+                @csrf
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="form-input-group">
