@@ -8,7 +8,7 @@
                 </div>
                 <div class="px-6 py-4">
                     <input type="text" class="form-input mb-4 w-full p-2 rounded border border-gray-300 text-black"
-                        placeholder="Search Guests..." wire:model.debounce.300ms="search">
+                        placeholder="Search Guests..." wire:model.live.300ms="search">
                     <div class="overflow-x-auto">
                         <table class="min-w-full w-full bg-white dark:bg-gray-800">
                             <thead class="bg-gray-100 dark:bg-gray-900">
