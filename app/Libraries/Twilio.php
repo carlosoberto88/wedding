@@ -11,7 +11,7 @@ class Twilio
 
     public function __construct()
     {
-        $this->twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $this->twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
     }
 
     public function sendSms($to, $message)
@@ -19,14 +19,14 @@ class Twilio
         $response = $this->twilio->messages->create(
             $to,
             [
-                'from' => env('TWILIO_PHONE_NUMBER'),
+                'from' => config('services.twilio.from'),
                 'body' => $message,
             ]
         );
 
         $data_sent = [
-            'to'   => env('ADMIN_PHONE_NUMBER'),
-            'from' => env('TWILIO_PHONE_NUMBER'),
+            'to'   => config('services.twilio.from'),
+            'from' => config('services.twilio.from'),
             'body' => $message
         ];
 
