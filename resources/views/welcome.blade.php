@@ -35,12 +35,14 @@
             document.getElementsByTagName('head')[0].appendChild(link);
         }
     </script>
-
+    @php
+        $version = rand(1000, 9999);
+    @endphp
     <link rel="stylesheet" href="css/normalize.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery.fancybox.css">
     <link rel="stylesheet" href="css/flexslider.css">
-    <link rel="stylesheet" href="{{asset('css/styles.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/styles.min.css')}}?v={{$version}}">
     <link rel="stylesheet" href="css/queries.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" onerror="loadCssFromCDN('animate.css')">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
