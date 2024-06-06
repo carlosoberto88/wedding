@@ -89,13 +89,11 @@ class RsvpComponent extends Component
         $flashMessage = 'Gracias por tu confirmacion!';
         try {
             if ($this->status == 'si') {
-                $message = 'Hola, ' . $selectedGuest->first_name . ' ' . $selectedGuest->last_name . ' ha confirmado tu asistencia junto con ' . $this->extras . ' extra(s).';
-            } elseif ($this->status == 'quizas') {
-                $message = 'Hola, ' . $selectedGuest->first_name . ' ' . $selectedGuest->last_name . ' no esta seguro si podra asistir junto con ' . $this->extras . ' extra(s).';
+                $message = 'Hola, ' . $selectedGuest->first_name . ' ha confirmado tu asistencia junto con un extra.';
             } else {
-                $message = 'Hola, ' . $selectedGuest->first_name . ' ' . $selectedGuest->last_name . ' lamentablemente no podra asistir.';
+                $message = 'Hola, ' . $selectedGuest->first_name . ' lamentablemente no podra asistir.';
             }
-            $twilio->sendSms(env('ADMIN_PHONE_NUMBER'), $message);
+            // $twilio->sendSms(env('ADMIN_PHONE_NUMBER'), $message);
         } catch (\Exception $e) {
             $flashMessage = $e->getMessage();
         }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Libraries\Twilio;
 use App\Models\Guest;
 use Illuminate\Console\Command;
 
@@ -26,14 +27,15 @@ class SendInviteCode extends Command
      */
     public function handle()
     {
+        $twilio = new Twilio();
         Guest::where('status','new')->cursor()->each(function ($guest) {
             $guest->update([
                 'status' => 'pending'
             ]);
 
-            $message = "Hola {$guest->first_name}! Tu codigo de confirmacion es {$guest->code}. Por favor ingresa a la siguiente URL para confirmar tu asistencia: https://example.com/rsvp/{$guest->code}";
+            $message = "Hola {$guest->first_name}! Tu codigo de confirmacion es {$guest->code}. Por favor ingresa a la siguiente URL para confirmar tu asistencia: https://elsidenuestravida.com/#rsvp";
 
-            // Twilio::send($guest->phone, $message);
+            // $twilio->sendSms($guest->phone, $message);
         });
     }
 }
