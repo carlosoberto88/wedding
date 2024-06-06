@@ -33,7 +33,7 @@ class SendInviteCode extends Command
                 'status' => 'pending'
             ]);
 
-            $message = "Hola {$guest->first_name}! Tu codigo de confirmacion es {$guest->code}. Por favor ingresa a la siguiente URL para confirmar tu asistencia: https://elsidenuestravida.com/#rsvp";
+            $message = "Hola {$guest->first_name} Tu codigo de confirmacion es {$guest->code} por favor ingresa a https://elsidenuestravida.com/#rsvp y se parte de nuestra celebracion";
 
             $twilio->sendSms($guest->phone, $message);
         });

@@ -14,7 +14,7 @@
     {{-- <meta property="og:image" content="https://wedding.ramswaroop.me/img/hero-min-min-min.jpg"> --}}
     <meta property="og:type" content="website">
     {{-- <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"> --}}
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('img/2.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/2.png') }}">
     {{-- <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"> --}}
     <link rel="manifest" href="manifest.json">
     <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
@@ -42,9 +42,10 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery.fancybox.css">
     <link rel="stylesheet" href="css/flexslider.css">
-    <link rel="stylesheet" href="{{asset('css/styles.min.css')}}?v={{$version}}">
+    <link rel="stylesheet" href="{{ asset('css/styles.min.css') }}?v={{ $version }}">
     <link rel="stylesheet" href="css/queries.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" onerror="loadCssFromCDN('animate.css')">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+        onerror="loadCssFromCDN('animate.css')">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         onerror="loadCssFromCDN('font-awesome.css')">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -132,7 +133,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min-min.jpg') }}" class="wp1" loading="lazy"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min-min.jpg') }}"
+                        class="wp1" loading="lazy"></div>
                 <div class="col-md-6">
                     <p>
                         Nos comprometimos el 24 de noviembre de 2023 en un restaurante encantador con vistas a la
@@ -141,14 +143,15 @@
                         ustedes en nuestra boda.
                     </p>
                 </div>
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min-min.jpg') }}" class="wp2" loading="lazy">
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min-min.jpg') }}"
+                        class="wp2" loading="lazy">
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367-min-min.jpg') }}"
-                        class="wp8" loading="lazy"></div>
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268-min-min.jpg') }}"
-                        class="wp9" loading="lazy"></div>
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img
+                        src="{{ asset('img/DSC07367-min-min.jpg') }}" class="wp8" loading="lazy"></div>
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img
+                        src="{{ asset('img/DSC07268-min-min.jpg') }}" class="wp9" loading="lazy"></div>
             </div>
         </div>
     </section>
@@ -188,7 +191,8 @@
             </div>
             <div class="row section-padding">
                 <div class="col-md-4 col-md-offset-4 text-center">
-                    <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#dc-modal" style="background-color:#d74ba8">
+                    <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#dc-modal"
+                        style="background-color:#d74ba8">
                         <i class="fa fa-barcode"></i>&nbsp;&nbsp;Código de vestimenta
                     </a>
                 </div>
@@ -209,9 +213,12 @@
                         <h3 class="text-center section-padding">Código de vestimenta</h3>
                         <h5>Vestimenta formal/elegante</h5>
                         La vestimenta formal/elegante es la más adecuada para nuestra boda.
-                        Inspirate con nuestro tablero de Pinterest, haz click sobre las imágenes
-                        {{-- <br> --}}
+                        Inspirate con nuestro tablero de Pinterest.
+                        <br>
                         <p>
+                            <center>
+                                <h5>haz click sobre las imágenes</h5>
+                            </center>
                         <ul style="display: flex; justify-content: space-evenly; list-style-type: none; padding: 0;">
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/5kOI0h6zt" target="_blank">
@@ -284,7 +291,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07213-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07213-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -294,7 +301,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07288-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07288-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -304,7 +311,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07335-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07335-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -314,7 +321,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07085-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07085-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -324,7 +331,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07091-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07091-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -334,7 +341,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07153-min-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07153-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -399,12 +406,14 @@
                         <div class="row text-center">
                             <div class="col-md-6" style="padding: 5px;">
                                 <a class="btn btn-fill btn-small"
-                                    href="https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=-0.2971594&dropoff[longitude]=-78.4347028&dropoff[nickname]=Destination"  style="background-color: #d74ba8"><i
-                                        class="fa fa-taxi"></i>&nbsp;&nbsp;Pedir Uber</a>
+                                    href="https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=-0.2971594&dropoff[longitude]=-78.4347028&dropoff[nickname]=Destination"
+                                    style="background-color: #d74ba8"><i class="fa fa-taxi"></i>&nbsp;&nbsp;Pedir
+                                    Uber</a>
                             </div>
                             <div class="col-md-6" style="padding: 5px;">
-                                <a class="btn btn-accent btn-small" id="btn-show-map" style="background-color: #d74ba8"><i
-                                        class="fa fa-map-marker" ></i>&nbsp;&nbsp;Ver Mapa</a>
+                                <a class="btn btn-accent btn-small" id="btn-show-map"
+                                    style="background-color: #d74ba8"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Ver
+                                    Mapa</a>
                             </div>
                         </div>
                     </div>
@@ -439,8 +448,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 text-center content">
-                    <span class="to-top-wrapper"><a href="#top" class="to-top"><i
-                                class="fa fa-angle-up" style="color: #d74ba8"></i></a></span>
+                    <span class="to-top-wrapper"><a href="#top" class="to-top"><i class="fa fa-angle-up"
+                                style="color: #d74ba8"></i></a></span>
                     <p>Creado por Carlos con <span class="fa fa-heart pulse2"></span> para Mildred</p>
                 </div>
             </div>

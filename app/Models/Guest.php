@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Guest extends Model
 {
@@ -19,8 +20,8 @@ class Guest extends Model
         'extras',
     ];
 
-    public function extras(): HasMany
+    public function extra(): HasOne
     {
-        return $this->hasMany(Extra::class);
+        return $this->hasOne(Extra::class);
     }
 }

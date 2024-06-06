@@ -28,11 +28,8 @@
                                         <td class="py-2 px-4 border-b text-center">{{ $guest->phone }}</td>
                                         <td class="py-2 px-4 border-b text-center">{{ $guest->status }}</td>
                                         <td class="py-2 px-4 border-b text-center">{{ $guest->code }}</td>
-                                        <td class="py-2 px-4 border-b text-center">{{ $guest->extras }}</td>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->extra ? $guest->extra->name : '' }}</td>
                                         <td class="py-2 px-4 border-b text-center">
-                                            <a href="{{ route('extras.show', $guest->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
-                                                <i class="fas fa-eye"></i> Extras
-                                            </a>
                                             <a href="{{ route('guests.edit', $guest->id) }}" class="text-green-500 hover:text-green-700">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
