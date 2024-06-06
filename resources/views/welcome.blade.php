@@ -101,7 +101,7 @@
             <div class="row">
                 <div class="col-sm-4 hidden-xs"></div>
                 <div class="col-sm-4 hidden-xs text-center"><a href="#rsvp"
-                        class="btn btn-accent btn-large rsvp-btn rsvp-button">RSVP</a></div>
+                        class="btn btn-accent btn-large rsvp-btn rsvp-button">¡Confirmación!</a></div>
                 <div class="col-sm-4 hidden-xs"></div>
             </div>
         </div>
