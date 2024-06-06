@@ -1,44 +1,53 @@
-<div>
-    @section('content')
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h2>Invitados</h2>
-                        </div>
-                        <div class="card-body">
-                            <input type="text" class="form-control mb-3" placeholder="Search Guests..."
-                                wire:model.debounce.300ms="search">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead-dark">
+<div class="container mx-auto mt-5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <div class="flex justify-center">
+        <div class="w-full max-w-5xl">
+            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+                <div class="px-6 py-4 text-center bg-gray-100 dark:bg-gray-900">
+                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Invitados</h2>
+                </div>
+                <div class="px-6 py-4">
+                    <input type="text" class="form-input mb-4 w-full p-2 rounded border border-gray-300 text-black"
+                        placeholder="Search Guests..." wire:model.debounce.300ms="search">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full w-full bg-white dark:bg-gray-800">
+                            <thead class="bg-gray-100 dark:bg-gray-900">
+                                <tr>
+                                    <th class="py-2 px-4 border-b text-center">Invitado</th>
+                                    <th class="py-2 px-4 border-b text-center">Telefono</th>
+                                    <th class="py-2 px-4 border-b text-center">Estado</th>
+                                    <th class="py-2 px-4 border-b text-center">Codigo</th>
+                                    <th class="py-2 px-4 border-b text-center">Acompañantes</th>
+                                    <th class="py-2 px-4 border-b text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($guests as $guest)
                                     <tr>
-                                        <th>Invitado</th>
-                                        <th>Telefono</th>
-                                        <th>Estado</th>
-                                        <th>Codigo</th>
-                                        <th>Acompañantes</th>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->first_name }}</td>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->phone }}</td>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->status }}</td>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->code }}</td>
+                                        <td class="py-2 px-4 border-b text-center">{{ $guest->extras }}</td>
+                                        <td class="py-2 px-4 border-b text-center">
+                                            <a href="{{ route('extras.show', $guest->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
+                                                <i class="fas fa-eye"></i> Extras
+                                            </a>
+                                            <a href="{{ route('guests.edit', $guest->id) }}" class="text-green-500 hover:text-green-700">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                        </td>
+                                        
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($guests as $guest)
-                                        <tr>
-                                            <td>{{ $guest->first_name }} {{ $guest->last_name }}</td>
-                                            <td>{{ $guest->phone }}</td>
-                                            <td>{{ $guest->status }}</td>
-                                            <td>{{ $guest->code }}</td>
-                                            <td>{{ $guest->companion }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="d-flex justify-content-center">
-                                {{ $guests->links() }}
-                            </div>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        {{ $guests->links('pagination::tailwind') }}
                     </div>
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
 </div>

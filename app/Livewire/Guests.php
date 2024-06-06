@@ -19,8 +19,8 @@ class Guests extends Component
 
     public function render()
     {
-        $guests = Guest::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
+        $guests = Guest::where('first_name', 'like', '%' . $this->search . '%')
+            ->orWhere('last_name', 'like', '%' . $this->search . '%')
             ->paginate(10);
 
         return view('livewire.guests', ['guests' => $guests])->layout('layouts.app');

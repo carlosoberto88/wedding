@@ -45,12 +45,9 @@ class RsvpComponent extends Component
         $this->validate([
             'query'         => 'nullable',
             'status'        => 'required',
-            'extras'        => 'required|integer|min:0|max:4',
+            'extras'        => 'required',
             'extrasName'    => [
-                Rule::requiredIf($this->extras > 0),
-                'array',
-                'min:' . $this->extras,
-                'max:' . $this->extras,
+                Rule::requiredIf($this->extras == 'si')
             ],
             'invite_code'   => 'required|integer',
             'selectedGuest' => 'required'
@@ -60,14 +57,17 @@ class RsvpComponent extends Component
             'status.required'        => 'Por favor indicanos tu asistencia.',
             'extras.required'        => 'Por favor indicanos si llevaras a alguien.',
             'invite_code.required'   => 'Por favor indicanos tu codigo de confirmacion.',
-            'extrasName.required'    => 'Por favor indicanos tus acompañantes.',
-            'extrasName.min'         => 'El número de acompañantes debe ser igual a ' . $this->extras . '.',
-            'extrasName.max'         => 'El número de acompañantes debe ser igual a ' . $this->extras . '.',
+            'extrasName.required'    => 'Por favor indicanos el nombre de tu pareja.',
         ]);
 
         // Ensure the invite_code belongs to the selectedGuest
         if ($this->selectedGuest && (int) $this->selectedGuest->code != (int) $this->invite_code) {
             $this->addError('invite_code', 'El código de invitación no coincide con el invitado seleccionado.');
+            return;
+        }
+        // Ensure the guest hasnt confirmed before
+        if($this->selectedGuest && $this->selectedGuest->status == 'si') {
+            $this->addError('invite_code', 'El invitado ya confirmó su asistencia.');
             return;
         }
         //UPDATE GUESTS
@@ -79,12 +79,10 @@ class RsvpComponent extends Component
         //UPDATE EXTRAS
         if ($this->extras > 0) {
             Extra::where('guest_id', $selectedGuest->id)->delete();
-            foreach ($this->extrasName as $extra) {
-                $newExtra = new Extra();
-                $newExtra->name = $extra;
-                $newExtra->guest_id = $selectedGuest->id;
-                $newExtra->save();
-            }
+            $newExtra = new Extra();
+            $newExtra->name = $this->extrasName;
+            $newExtra->guest_id = $selectedGuest->id;
+            $newExtra->save();
         }
 
         $twilio = new Twilio();
@@ -97,7 +95,7 @@ class RsvpComponent extends Component
             } else {
                 $message = 'Hola, ' . $selectedGuest->first_name . ' ' . $selectedGuest->last_name . ' lamentablemente no podra asistir.';
             }
-            // $twilio->sendSms(env('ADMIN_PHONE_NUMBER'), $message);
+            $twilio->sendSms(env('ADMIN_PHONE_NUMBER'), $message);
         } catch (\Exception $e) {
             $flashMessage = $e->getMessage();
         }

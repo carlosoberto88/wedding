@@ -14,7 +14,7 @@
                             @if (!empty($guests))
                                 <ul class="search-results">
                                     @foreach ($guests as $user)
-                                        <li wire:click="selectGuest({{ $user->id }})">{{ $user->last_name }}
+                                        <li wire:click="selectGuest({{ $user->id }})">
                                             {{ $user->first_name }}</li>
                                     @endforeach
                                 </ul>
@@ -37,8 +37,11 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="form-input-group">
                             <i class="fa fa-users"></i>
-                            <input wire:model.live="extras" type="number" name="extras" class="" min="0"
-                                max="4" placeholder="Acompañantes" required autocomplete="off">
+                            <select wire:model.live="extras" class="form-control" required>
+                                <option value="">Pareja?</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4">
@@ -50,15 +53,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    @for ($i = 0; $i < $extras; $i++)
+                    @if($extras == 'si')
                         <div class="col-md-12 col-sm-12">
                             <div class="form-input-group">
                                 <i class="fa fa-user"></i>
-                                <input wire:model="extrasName.{{ $i }}" type="text" class=""
-                                    placeholder="Nombre Acompañante {{ $i + 1 }}" required autocomplete="off">
+                                <input wire:model="extrasName" type="text" class=""
+                                    placeholder="Nombre Pareja" required autocomplete="off">
                             </div>
                         </div>
-                    @endfor
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-md-12" id="alert-wrapper">

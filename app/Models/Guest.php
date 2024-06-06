@@ -10,6 +10,15 @@ class Guest extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'phone',
+        'code',
+        'status',
+        'extras',
+    ];
+
     public function extras(): HasMany
     {
         return $this->hasMany(Extra::class);

@@ -57,6 +57,9 @@
 </head>
 
 <body id="top">
+    <a href="https://wa.me/+593995607545" class="whatsapp-icon" target="_blank">
+        <i class="fa fa-whatsapp"></i>
+    </a>
     <section class="hero">
         <section class="navigation">
             <header>
@@ -65,11 +68,11 @@
                     <div class="header-nav">
                         <nav>
                             <ul class="primary-nav">
-                                <li><a href="#intro">How we met</a></li>
-                                <li><a href="#events">Events</a></li>
-                                <li><a href="#instagram">Instagram</a></li>
-                                <li><a href="#eng-pics">Engagement</a></li>
-                                <li class="hidden-sm hidden-xs"><a href="#video-bg">Glimpse of the city</a></li>
+                                <li><a href="#intro">Nuestro Compromiso</a></li>
+                                <li><a href="#events">Nupcias</a></li>
+                                <li><a href="#instagram">Regalos</a></li>
+                                <li><a href="#eng-pics">Fotos compromiso</a></li>
+                                <li class="hidden-sm hidden-xs"><a href="#video-bg">Un vistazo a la ciudad</a></li>
                             </ul>
                             <ul class="member-actions">
                                 <li><a href="{{ route('login') }}" class="login">Login</a></li>
@@ -127,7 +130,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="img/DSC07367.jpg" class="wp1"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367.jpg') }}" class="wp1"></div>
                 <div class="col-md-6">
                     <p>
                         Nos comprometimos el 24 de noviembre de 2023 en un restaurante encantador con vistas a la
@@ -140,9 +143,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="img/DSC07367.jpg"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367.jpg') }}"
                         class="wp8"></div>
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="img/DSC7380.jpg"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268.jpg') }}"
                         class="wp9"></div>
             </div>
         </div>
@@ -269,7 +272,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3 class="header">Fotos del compromiso</h3>
+                    <h3 class="header">Fotos de compromiso</h3>
                 </div>
             </div>
             <div class="row">
