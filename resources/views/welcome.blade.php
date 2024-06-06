@@ -71,13 +71,13 @@
                                 <li><a href="#intro">Nuestro Compromiso</a></li>
                                 <li><a href="#events">Nupcias</a></li>
                                 <li><a href="#instagram">Regalos</a></li>
-                                <li><a href="#eng-pics">Fotos compromiso</a></li>
+                                <li><a href="#eng-pics">Fotos de compromiso</a></li>
                                 <li class="hidden-sm hidden-xs"><a href="#video-bg">Un vistazo a la ciudad</a></li>
                             </ul>
                             <ul class="member-actions">
                                 <li><a href="{{ route('login') }}" class="login">Login</a></li>
-                                <li><a href="#map" class="login">Ubicacion</a></li>
-                                <li><a href="#rsvp" class="btn-white btn-small">Confirmar!</a></li>
+                                <li><a href="#map" class="login">Ubicación</a></li>
+                                <li><a href="#rsvp" class="btn-white btn-small">¡Confirmar!</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -164,10 +164,10 @@
                         <p><strong>1 de Noviembre del 2024</strong></p>
 
                         <h5>Ceremonia <span class="time">3PM - 4PM</span></h5>
-                        <p>Tres cosas hay que son permanentes: La fe, la esperanza y el amor; pero la más importante de
+                        <p>Tres cosas hay que son permanentes: La fé, la esperanza y el amor; pero la más importante de
                             las tres es el AMOR.
                             (Corintios 13,13)
-                            Acompañanos en nuestra ceremonia religiosa y sé parte de este mágico momento
+                            Acompáñanos en nuestra ceremonia religiosa y sé parte de este mágico momento
                             junto a nosotros.</p>
                     </div>
                 </div>
@@ -365,8 +365,8 @@
 
     <section id="map" class="section-padding">
         <div class="text-center">
-            <h3>Como llegar?</h3>
-            <p>Es mas facil de lo que crees!</p>
+            <h3>¿Cómo llegar?</h3>
+            <p>¡Es más fácil de lo que crees!</p>
         </div>
         <div id="map-canvas"></div>
         <div id="map-content-wrapper" class="container pointer-events-none">
@@ -374,7 +374,7 @@
                 <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6">
                     <div class="text-center">
                         <div id="btn-show-content" class="toggle-map-content pointer-events-auto">
-                            <i class="fa fa-info-circle"></i>&nbsp;&nbsp; Show info
+                            <i class="fa fa-info-circle"></i>&nbsp;&nbsp; Mostrar información
                         </div>
                     </div>
                     <div id="map-content" class="pointer-events-auto">

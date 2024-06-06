@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h3>Que estas esperando?</h3>
-            <p>Recuerda confirmar antes del 15 de agosto!</p>
+            <h3>¡Qué estás esperando?</h3>
+            <p>¡Recuerda confirmar antes del 15 de agosto!</p>
             <div id="rsvp-form" class="rsvp-form" action="" method="POST" autocomplete="off">
                 @csrf
                 <div class="row">
@@ -27,10 +27,9 @@
                         <div class="form-input-group">
                             <i class="fa fa-question-circle"></i>
                             <select wire:model="status" class="form-control" required>
-                                <option value="">Asistiras?</option>
+                                <option value="">¿Asistirás?</option>
                                 <option value="si">Si</option>
                                 <option value="no">No</option>
-                                <option value="quizas">No lo se</option>
                             </select>
                         </div>
                     </div>
@@ -38,7 +37,7 @@
                         <div class="form-input-group">
                             <i class="fa fa-users"></i>
                             <select wire:model.live="extras" class="form-control" required>
-                                <option value="">Pareja?</option>
+                                <option value="">¿Pareja?</option>
                                 <option value="si">Si</option>
                                 <option value="no">No</option>
                             </select>
@@ -86,7 +85,7 @@
                     </div>
                 </div>
                 <button class="btn-fill rsvp-btn" wire:loading.attr="disabled" wire:click="submitForm">
-                    <span wire:loading.remove wire:target="submitForm">Cuenten conmigo!</span>
+                    <span wire:loading.remove wire:target="submitForm">¡Cuenten conmigo!</span>
                     <span wire:loading wire:target="submitForm">Procesando tu confirmación...</span>
                 </button>
             </div>
