@@ -93,7 +93,7 @@ class RsvpComponent extends Component
             } else {
                 $message = 'Hola, ' . $selectedGuest->first_name . ' lamentablemente no podra asistir.';
             }
-            $twilio->sendSms(config('services.twilio.from'), $message);
+            $twilio->sendSms(config('services.twilio.admin'), $message);
         } catch (\Exception $e) {
             $flashMessage = $e->getMessage();
         }
