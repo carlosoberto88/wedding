@@ -25,7 +25,7 @@ class Twilio
         );
 
         $data_sent = [
-            'to'   => config('services.twilio.from'),
+            'to'   => $to,
             'from' => config('services.twilio.from'),
             'body' => $message
         ];
