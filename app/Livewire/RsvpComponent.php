@@ -89,7 +89,7 @@ class RsvpComponent extends Component
         $flashMessage = 'Gracias por tu confirmacion!';
         try {
             if ($this->status == 'si') {
-                $message = 'Hola, ' . $selectedGuest->first_name . ' ha confirmado tu asistencia '.$this->extra ? 'junto con'.$this->extrasName.'!' : '!';
+                $message = 'Hola, ' . $selectedGuest->first_name . ' ha confirmado tu asistencia ' . ($this->extra ? 'junto con ' . $this->extrasName . '!' : '!');
             } else {
                 $message = 'Hola, ' . $selectedGuest->first_name . ' lamentablemente no podra asistir.';
             }
