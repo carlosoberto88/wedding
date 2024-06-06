@@ -77,7 +77,7 @@ class RsvpComponent extends Component
         $selectedGuest->save();
 
         //UPDATE EXTRAS
-        if ($this->extras > 0) {
+        if ($this->extras == 'si') {
             Extra::where('guest_id', $selectedGuest->id)->delete();
             $newExtra = new Extra();
             $newExtra->name = $this->extrasName;
@@ -89,12 +89,13 @@ class RsvpComponent extends Component
         $flashMessage = 'Gracias por tu confirmacion!';
         try {
             if ($this->status == 'si') {
-                $message = 'Hola, ' . $selectedGuest->first_name . ' ha confirmado tu asistencia ' . ($this->extra ? 'junto con ' . $this->extrasName . '!' : '!');
+                $message = 'Hola, ' . $selectedGuest->first_name . ' ha confirmado su asistencia' . ($this->extras == 'si' ? ' junto con ' . $this->extrasName . '!' : '!');
             } else {
                 $message = 'Hola, ' . $selectedGuest->first_name . ' lamentablemente no podra asistir.';
             }
             $twilio->sendSms(config('services.twilio.admin'), $message);
         } catch (\Exception $e) {
+            \Log::error($e->getMessage());
             $flashMessage = $e->getMessage();
         }
 
