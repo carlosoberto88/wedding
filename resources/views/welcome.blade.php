@@ -286,32 +286,32 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07213-min-min.jpg">
-                        <div class="img-wrap">
-                            <div class="overlay">
-                                <i class="fa fa-search"></i>
-                            </div>
-                            <img src="img/DSC07213-min-min.jpg" alt="" loading="lazy" />
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07288-min-min.jpg">
-                        <div class="img-wrap">
-                            <div class="overlay">
-                                <i class="fa fa-search"></i>
-                            </div>
-                            <img src="img/DSC07288-min-min.jpg" alt="" loading="lazy" />
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-2">
                     <a class="fancybox" rel="group" href="img/DSC07335-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
                             <img src="img/DSC07335-min-min.jpg" alt="" loading="lazy" />
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a class="fancybox" rel="group" href="img/DSC07091-min-min.jpg">
+                        <div class="img-wrap">
+                            <div class="overlay">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <img src="img/DSC07091-min-min.jpg" alt="" loading="lazy" />
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a class="fancybox" rel="group" href="img/DSC07213-min-min.jpg">
+                        <div class="img-wrap">
+                            <div class="overlay">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <img src="img/DSC07213-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
@@ -326,12 +326,12 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07091-min-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07288-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07091-min-min.jpg" alt="" loading="lazy" />
+                            <img src="img/DSC07288-min-min.jpg" alt="" loading="lazy" />
                         </div>
                     </a>
                 </div>
