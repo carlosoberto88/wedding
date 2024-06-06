@@ -36,7 +36,7 @@ class RsvpComponent extends Component
     public function selectGuest($userId)
     {
         $this->selectedGuest = Guest::find($userId);
-        $this->query = $this->selectedGuest->first_name . ' ' . $this->selectedGuest->last_name;
+        $this->query = $this->selectedGuest->first_name;
         $this->guests = [];
     }
 

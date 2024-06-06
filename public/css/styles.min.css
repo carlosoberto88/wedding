@@ -344,7 +344,7 @@ section .header {
 }
 .hero {
     min-height: 750px;
-    background: url("../img/cover-4.jpg") center top -50px;
+    background: url("../img/cover-4-min.jpg") center top -50px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

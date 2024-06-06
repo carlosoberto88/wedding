@@ -11,11 +11,11 @@
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Mildred & Carlos se casan">
     <meta property="og:description" content="Queremos invitarte a nuestro gran día.">
-    <meta property="og:image" content="https://wedding.ramswaroop.me/img/hero-min-min.jpg">
+    {{-- <meta property="og:image" content="https://wedding.ramswaroop.me/img/hero-min-min-min.jpg"> --}}
     <meta property="og:type" content="website">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    {{-- <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"> --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('img/2.png')}}">
+    {{-- <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"> --}}
     <link rel="manifest" href="manifest.json">
     <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
 
@@ -42,8 +42,8 @@
     <link rel="stylesheet" href="css/flexslider.css">
     <link rel="stylesheet" href="css/styles.min.css">
     <link rel="stylesheet" href="css/queries.css">
-    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css" onerror="loadCssFromCDN('animate.css')">
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" onerror="loadCssFromCDN('animate.css')">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         onerror="loadCssFromCDN('font-awesome.css')">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min.jpg') }}" class="wp1" loading="lazy"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min-min.jpg') }}" class="wp1" loading="lazy"></div>
                 <div class="col-md-6">
                     <p>
                         Nos comprometimos el 24 de noviembre de 2023 en un restaurante encantador con vistas a la
@@ -139,13 +139,13 @@
                         ustedes en nuestra boda.
                     </p>
                 </div>
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min.jpg') }}" class="wp2" loading="lazy">
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min-min.jpg') }}" class="wp2" loading="lazy">
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367-min.jpg') }}"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367-min-min.jpg') }}"
                         class="wp8" loading="lazy"></div>
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268-min.jpg') }}"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268-min-min.jpg') }}"
                         class="wp9" loading="lazy"></div>
             </div>
         </div>
@@ -213,13 +213,13 @@
                         <ul style="display: flex; justify-content: space-evenly; list-style-type: none; padding: 0;">
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/5kOI0h6zt" target="_blank">
-                                    <img src="img/mujeres-3-min.jpg" alt=""
+                                    <img src="img/mujeres-3.jpg" alt=""
                                         style="height: 200px; object-fit: cover;" loading="lazy">
                                 </a>
                             </li>
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/1yt3anAzU" target="_blank">
-                                    <img src="img/hombres-3-min.jpg" alt=""
+                                    <img src="img/hombres-3.jpg" alt=""
                                         style="height: 200px; object-fit: cover;" loading="lazy">
                                 </a>
                             </li>
@@ -277,62 +277,62 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07213-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07213-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07213-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07213-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07288-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07288-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07288-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07288-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07335-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07335-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07335-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07335-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07085-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07085-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07085-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07085-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07091-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07091-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07091-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07091-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07153-min.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07153-min-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07153-min.jpg" alt=""  loading="lazy"/>
+                            <img src="img/DSC07153-min-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
