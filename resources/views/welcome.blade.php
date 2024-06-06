@@ -186,7 +186,7 @@
             </div>
             <div class="row section-padding">
                 <div class="col-md-4 col-md-offset-4 text-center">
-                    <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#dc-modal">
+                    <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#dc-modal" style="background-color:#d74ba8">
                         <i class="fa fa-barcode"></i>&nbsp;&nbsp;Código de vestimenta
                     </a>
                 </div>
@@ -387,9 +387,9 @@
                                 <h5>Google Maps/Waze</h5>
                                 <p>
                                     <a href="https://www.google.com/maps?q=-0.2971594,-78.4347028&z=15"
-                                        target="_blank">Google Maps</a><br>
+                                        target="_blank" style="color: #d74ba8">Google Maps</a><br>
                                     <a href="https://waze.com/ul?ll=-0.2971594,-78.4347028&navigate=yes"
-                                        target="_blank">Waze</a><br>
+                                        target="_blank" style="color: #d74ba8">Waze</a><br>
                                 </p>
                             </div>
 
@@ -397,12 +397,12 @@
                         <div class="row text-center">
                             <div class="col-md-6" style="padding: 5px;">
                                 <a class="btn btn-fill btn-small"
-                                    href="https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=-0.2971594&dropoff[longitude]=-78.4347028&dropoff[nickname]=Destination"><i
+                                    href="https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=-0.2971594&dropoff[longitude]=-78.4347028&dropoff[nickname]=Destination"  style="background-color: #d74ba8"><i
                                         class="fa fa-taxi"></i>&nbsp;&nbsp;Pedir Uber</a>
                             </div>
                             <div class="col-md-6" style="padding: 5px;">
-                                <a class="btn btn-accent btn-small" id="btn-show-map"><i
-                                        class="fa fa-map-marker"></i>&nbsp;&nbsp;Ver Mapa</a>
+                                <a class="btn btn-accent btn-small" id="btn-show-map" style="background-color: #d74ba8"><i
+                                        class="fa fa-map-marker" ></i>&nbsp;&nbsp;Ver Mapa</a>
                             </div>
                         </div>
                     </div>
