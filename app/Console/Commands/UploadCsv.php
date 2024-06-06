@@ -28,7 +28,7 @@ class UploadCsv extends Command
     public function handle()
     {
         // $rows is an instance of Illuminate\Support\LazyCollection
-        $rows = SimpleExcelReader::create(public_path('invitados-test2.csv'))->getRows();
+        $rows = SimpleExcelReader::create(public_path('invitados-test3.csv'))->getRows();
 
         $rows->each(function (array $rowProperties) {
             Guest::create([
