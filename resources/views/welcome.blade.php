@@ -440,7 +440,7 @@
             <div class="row">
                 <div class="col-sm-12 text-center content">
                     <span class="to-top-wrapper"><a href="#top" class="to-top"><i
-                                class="fa fa-angle-up"></i></a></span>
+                                class="fa fa-angle-up" style="color: #d74ba8"></i></a></span>
                     <p>Creado por Carlos con <span class="fa fa-heart pulse2"></span> para Mildred</p>
                 </div>
             </div>
