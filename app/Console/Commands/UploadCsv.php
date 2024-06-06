@@ -46,7 +46,7 @@ class UploadCsv extends Command
     public static function generateUniqueInviteCode()
     {
         do {
-            $inviteCode = \Str::random(5);
+            $inviteCode = strval(rand(10000, 99999));
         } while (Guest::where('invite_code', $inviteCode)->exists());
 
         return $inviteCode;
