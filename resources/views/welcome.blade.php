@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Mildred & Carlos se casan">
     <meta property="og:description" content="Queremos invitarte a nuestro gran día.">
-    <meta property="og:image" content="https://wedding.ramswaroop.me/img/hero-min.jpg">
+    <meta property="og:image" content="https://wedding.ramswaroop.me/img/hero-min-min.jpg">
     <meta property="og:type" content="website">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367.jpg') }}" class="wp1"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min.jpg') }}" class="wp1"></div>
                 <div class="col-md-6">
                     <p>
                         Nos comprometimos el 24 de noviembre de 2023 en un restaurante encantador con vistas a la
@@ -139,13 +139,13 @@
                         ustedes en nuestra boda.
                     </p>
                 </div>
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268.jpg') }}" class="wp2">
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min.jpg') }}" class="wp2">
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367.jpg') }}"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367-min.jpg') }}"
                         class="wp8"></div>
-                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268.jpg') }}"
+                <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268-min.jpg') }}"
                         class="wp9"></div>
             </div>
         </div>
@@ -213,13 +213,13 @@
                         <ul style="display: flex; justify-content: space-evenly; list-style-type: none; padding: 0;">
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/5kOI0h6zt" target="_blank">
-                                    <img src="img/mujeres-3.jpg" alt=""
+                                    <img src="img/mujeres-3-min.jpg" alt=""
                                         style="height: 200px; object-fit: cover;">
                                 </a>
                             </li>
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/1yt3anAzU" target="_blank">
-                                    <img src="img/hombres-3.jpg" alt=""
+                                    <img src="img/hombres-3-min.jpg" alt=""
                                         style="height: 200px; object-fit: cover;">
                                 </a>
                             </li>
@@ -254,7 +254,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3>Regalos!</h3>
+                    <h3>¡Regalos!</h3>
                     <p>El mejor regalo que nos das es tu presencia, pero si quieres tener un detalle con nosotros
                         ayúdanos para nuestra luna de miel!
                     </p>
@@ -277,62 +277,62 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07213.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07213-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07213.jpg" alt="" />
+                            <img src="img/DSC07213-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07288.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07288-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07288.jpg" alt="" />
+                            <img src="img/DSC07288-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07335.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07335-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07335.jpg" alt="" />
+                            <img src="img/DSC07335-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07085.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07085-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07085.jpg" alt="" />
+                            <img src="img/DSC07085-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07091.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07091-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07091.jpg" alt="" />
+                            <img src="img/DSC07091-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fancybox" rel="group" href="img/DSC07153.jpg">
+                    <a class="fancybox" rel="group" href="img/DSC07153-min.jpg">
                         <div class="img-wrap">
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07153.jpg" alt="" />
+                            <img src="img/DSC07153-min.jpg" alt="" />
                         </div>
                     </a>
                 </div>
