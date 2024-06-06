@@ -28,14 +28,14 @@ class SendInviteCode extends Command
     public function handle()
     {
         $twilio = new Twilio();
-        Guest::where('status','new')->cursor()->each(function ($guest) {
+        Guest::where('status','new')->cursor()->each(function ($guest) use($twilio) {
             $guest->update([
                 'status' => 'pending'
             ]);
 
             $message = "Hola {$guest->first_name}! Tu codigo de confirmacion es {$guest->code}. Por favor ingresa a la siguiente URL para confirmar tu asistencia: https://elsidenuestravida.com/#rsvp";
 
-            // $twilio->sendSms($guest->phone, $message);
+            $twilio->sendSms($guest->phone, $message);
         });
     }
 }
