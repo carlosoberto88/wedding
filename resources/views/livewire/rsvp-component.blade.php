@@ -2,8 +2,9 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h3>¡Qué estás esperando?</h3>
-            <p>¡Recuerda confirmar antes del 15 de agosto!</p>
-            <p>¡Gran noticia! Tienes un +1 para nuestra boda. ¡Traigan a su mejor acompañante y prepárense para la fiesta!</p>
+            <p style="text-align: center">¡Gran noticia! Tienes un +1 para nuestra boda.<br>
+                ¡Traigan a su mejor acompañante y prepárense para la fiesta!<br>
+                ¡Recuerda confirmar antes del 15 de agosto!</p>
             <div id="rsvp-form" class="rsvp-form" action="" method="POST" autocomplete="off">
                 @csrf
                 <div class="row">
@@ -53,12 +54,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    @if($extras == 'si')
+                    @if ($extras == 'si')
                         <div class="col-md-12 col-sm-12">
                             <div class="form-input-group">
                                 <i class="fa fa-user"></i>
-                                <input wire:model="extrasName" type="text" class=""
-                                    placeholder="Nombre Pareja" required autocomplete="off">
+                                <input wire:model="extrasName" type="text" class="" placeholder="Nombre Pareja"
+                                    required autocomplete="off">
                             </div>
                         </div>
                     @endif
