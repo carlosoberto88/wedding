@@ -92,7 +92,7 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="hero-content text-center">
                         <!--<h1>Ram and Antara</h1>-->
-                        <img src="img/1.png ">
+                        <img src="img/1.png " loading="lazy">
                         <!--<p class="intro">Ram & Antara are getting hitched!</p>-->
                         <!--<a href="#" class="btn btn-fill btn-large btn-margin-right">Scroll Down</a> -->
                     </div>
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min.jpg') }}" class="wp1"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07367-min.jpg') }}" class="wp1" loading="lazy"></div>
                 <div class="col-md-6">
                     <p>
                         Nos comprometimos el 24 de noviembre de 2023 en un restaurante encantador con vistas a la
@@ -139,14 +139,14 @@
                         ustedes en nuestra boda.
                     </p>
                 </div>
-                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min.jpg') }}" class="wp2">
+                <div class="col-md-3 hidden-sm hidden-xs"><img src="{{ asset('img/DSC07268-min.jpg') }}" class="wp2" loading="lazy">
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07367-min.jpg') }}"
-                        class="wp8"></div>
+                        class="wp8" loading="lazy"></div>
                 <div class="col-sm-4 col-sm-push-2 col-xs-6 hidden-md hidden-lg"><img src="{{ asset('img/DSC07268-min.jpg') }}"
-                        class="wp9"></div>
+                        class="wp9" loading="lazy"></div>
             </div>
         </div>
     </section>
@@ -214,13 +214,13 @@
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/5kOI0h6zt" target="_blank">
                                     <img src="img/mujeres-3-min.jpg" alt=""
-                                        style="height: 200px; object-fit: cover;">
+                                        style="height: 200px; object-fit: cover;" loading="lazy">
                                 </a>
                             </li>
                             <li style="flex: 1; display: flex; justify-content: center;">
                                 <a href="https://pin.it/1yt3anAzU" target="_blank">
                                     <img src="img/hombres-3-min.jpg" alt=""
-                                        style="height: 200px; object-fit: cover;">
+                                        style="height: 200px; object-fit: cover;" loading="lazy">
                                 </a>
                             </li>
                         </ul>
@@ -262,7 +262,7 @@
             </div>
             <div class="row section-border wp7">
                 <div class="col-md-4 col-md-offset-4">
-                    <img src="img/regalo-3.png">
+                    <img src="img/regalo-3.png" loading="lazy">
                 </div>
             </div>
         </div>
@@ -282,7 +282,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07213-min.jpg" alt="" />
+                            <img src="img/DSC07213-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
@@ -292,7 +292,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07288-min.jpg" alt="" />
+                            <img src="img/DSC07288-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
@@ -302,7 +302,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07335-min.jpg" alt="" />
+                            <img src="img/DSC07335-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
@@ -312,7 +312,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07085-min.jpg" alt="" />
+                            <img src="img/DSC07085-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
@@ -322,7 +322,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07091-min.jpg" alt="" />
+                            <img src="img/DSC07091-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>
@@ -332,7 +332,7 @@
                             <div class="overlay">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <img src="img/DSC07153-min.jpg" alt="" />
+                            <img src="img/DSC07153-min.jpg" alt=""  loading="lazy"/>
                         </div>
                     </a>
                 </div>

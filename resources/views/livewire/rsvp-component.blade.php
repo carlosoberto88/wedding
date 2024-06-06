@@ -3,6 +3,7 @@
         <div class="col-md-6 col-md-offset-3">
             <h3>¡Qué estás esperando?</h3>
             <p>¡Recuerda confirmar antes del 15 de agosto!</p>
+            <p>¡Gran noticia! Tienes un +1 para nuestra boda. ¡Traigan a su mejor acompañante y prepárense para la fiesta!</p>
             <div id="rsvp-form" class="rsvp-form" action="" method="POST" autocomplete="off">
                 @csrf
                 <div class="row">
