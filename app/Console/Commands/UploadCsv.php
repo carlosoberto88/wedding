@@ -13,7 +13,7 @@ class UploadCsv extends Command
      *
      * @var string
      */
-    protected $signature = 'app:upload-csv';
+    protected $signature = 'app:upload-csv {file}';
 
     /**
      * The console command description.
@@ -27,8 +27,10 @@ class UploadCsv extends Command
      */
     public function handle()
     {
+
+        $filename = $this->argument('file');
         // $rows is an instance of Illuminate\Support\LazyCollection
-        $rows = SimpleExcelReader::create(public_path('invitados-test3.csv'))->getRows();
+        $rows = SimpleExcelReader::create(public_path($filename.'.csv'))->getRows();
 
         $rows->each(function (array $rowProperties) {
             Guest::create([
