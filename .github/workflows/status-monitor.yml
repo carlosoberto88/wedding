@@ -1,4 +1,4 @@
-name: GitHub Actions Status Monitor
+name: GitHub Status Monitor
 
 on:
   schedule:
@@ -26,24 +26,23 @@ jobs:
               const webhookUrl = process.env.SLACK_WEBHOOK_URL;
               const data = JSON.stringify({
                 text: message,
-                username: 'GitHub Actions Monitor',
-                icon_emoji: ':octocat:'
+                username: 'GitHub Status Monitor',
+                icon_emoji: ':github:'
               });
 
+              const parsedUrl = new URL(webhookUrl);
               const options = {
+                hostname: parsedUrl.hostname,
+                path: parsedUrl.pathname + parsedUrl.search,
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
-                  'Content-Length': data.length,
+                  'Content-Length': Buffer.byteLength(data)
                 }
               };
-
-              const req = https.request(webhookUrl, options, (res) => {
-                if (res.statusCode === 200) {
-                  resolve();
-                } else {
-                  reject(new Error(`Status Code: ${res.statusCode}`));
-                }
+              
+              const req = https.request(options, (res) => {
+                res.on('end', () => resolve());
               });
 
               req.on('error', (error) => reject(error));
@@ -54,44 +53,56 @@ jobs:
 
           function checkGitHubStatus() {
             return new Promise((resolve, reject) => {
-              https.get(
-                'https://www.githubstatus.com/api/v2/summary.json',
-                (res) => {
-                  let data = '';
-                  res.on('data', (chunk) => data += chunk);
-                  res.on('end', () => resolve(JSON.parse(data)));
-                }
-              ).on('error', reject);
+              https.get('https://www.githubstatus.com/api/v2/summary.json', (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                  try {
+                    const response = JSON.parse(data);
+                    resolve(response);
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              }).on('error', reject);
             });
           }
 
           async function main() {
             try {
-              // Send test message
-              await sendToSlack('🔍 Testing GitHub Actions monitoring setup...');
-              
-              // Check status
               const response = await checkGitHubStatus();
-              const component = response.component;
               
-              const statusEmoji = {
-                'operational': '✅',
-                'degraded_performance': '⚠️',
-                'partial_outage': '🚨',
-                'major_outage': '❌'
-              };
-              
-              const emoji = statusEmoji[component.status] || '❓';
-              const message = `GitHub Actions: ${emoji} ${component.status.replace('_', ' ').toUpperCase()}
-              Description: ${component.description}
-              Last Updated: ${new Date(component.updated_at).toLocaleString()}`;
-              
-              await sendToSlack(message);
+              // Filter out components that are not operational
+              const nonOperationalServices = response.components.filter(
+                component => component.status !== 'operational' && 
+                            !component.name.includes('Visit www.githubstatus.com')
+              );
+
+              if (nonOperationalServices.length > 0) {
+                const statusEmoji = {
+                  'operational': '✅',
+                  'degraded_performance': '⚠️',
+                  'partial_outage': '🚨',
+                  'major_outage': '❌',
+                  'under_maintenance': '🔧'
+                };
+
+                const servicesStatus = nonOperationalServices.map(service => {
+                  const emoji = statusEmoji[service.status] || '❓';
+                  return `${emoji} *${service.name}*
+Status: ${service.status.replace('_', ' ').toUpperCase()}
+${service.description ? `Description: ${service.description}` : ''}
+Last Updated: ${new Date(service.updated_at).toLocaleString()}`;
+                }).join('\n\n');
+
+                const message = `🚨 *GitHub Service Alert*\n\n${servicesStatus}\n\n*Overall GitHub Status*: ${response.status.description}`;
+                
+                await sendToSlack(message);
+              }
               
             } catch (error) {
               console.error('Error:', error);
-              await sendToSlack(`:x: Error checking GitHub Actions status: ${error.message}`);
-              process.exit(1);
+              await sendToSlack(`:x: Error checking GitHub status: ${error.message}`);
             }
           }
 
