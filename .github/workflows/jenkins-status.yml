@@ -67,7 +67,8 @@ jobs:
                     
                     // Extract services and their status
                     $('body').text().split('\n').forEach(line => {
-                      const match = line.match(/([\w\.\-]+\.jenkins\.io|\bpublick8s\b)\s+\(\?\)(Operational|Disrupted)/);
+                      // Updated regex to catch any status after (?)
+                      const match = line.match(/([\w\.\-]+\.jenkins\.io|\bpublick8s\b)\s+\(\?\)(\w+)/);
                       if (match) {
                         services.push({
                           name: match[1],
@@ -91,22 +92,33 @@ jobs:
               
               const statusEmoji = {
                 'Operational': '✅',
-                'Disrupted': '🚨'
+                'Disrupted': '🚨',
+                'Degraded': '⚠️',
+                'Down': '❌'
               };
 
-              const disruptedServices = services.filter(
+              const nonOperationalServices = services.filter(
                 service => service.status !== 'Operational'
               );
 
               let message;
 
-              if (disruptedServices.length > 0) {
-                const servicesStatus = disruptedServices.map(service => {
+              if (nonOperationalServices.length > 0) {
+                // List problematic services first
+                const problematicServices = nonOperationalServices.map(service => {
                   const emoji = statusEmoji[service.status] || '❓';
                   return emoji + ' *' + service.name + '*\nStatus: ' + service.status;
                 }).join('\n\n');
 
-                message = '🚨 *Jenkins Services Alert*\n\n' + servicesStatus;
+                // List operational services after
+                const operationalServices = services
+                  .filter(service => service.status === 'Operational')
+                  .map(service => '✅ ' + service.name)
+                  .join('\n');
+
+                message = '🚨 *Jenkins Services Alert*\n\n' +
+                         'Services with Issues:\n' + problematicServices + 
+                         '\n\nOperational Services:\n' + operationalServices;
               } else {
                 const servicesList = services.map(service => 
                   '✅ ' + service.name
@@ -115,7 +127,18 @@ jobs:
                 message = '✅ *All Jenkins Services Operational*\n\n' + servicesList;
               }
 
-              message += '\n\nLast checked: ' + new Date().toLocaleString();
+              // Add statistics
+              const stats = {
+                total: services.length,
+                operational: services.filter(s => s.status === 'Operational').length,
+                issues: services.filter(s => s.status !== 'Operational').length
+              };
+
+              message += '\n\n*Statistics:*\n' +
+                        `Total Services: ${stats.total}\n` +
+                        `Operational: ${stats.operational}\n` +
+                        `With Issues: ${stats.issues}\n\n` +
+                        'Last checked: ' + new Date().toLocaleString();
               
               await sendToSlack(message);
               
