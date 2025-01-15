@@ -72,20 +72,25 @@ jobs:
             try {
               const response = await checkGitHubStatus();
               
-              const nonOperationalServices = response.components.filter(
-                component => component.status !== 'operational' && 
-                            !component.name.includes('Visit www.githubstatus.com')
+              const allServices = response.components.filter(
+                component => !component.name.includes('Visit www.githubstatus.com')
               );
 
-              if (nonOperationalServices.length > 0) {
-                const statusEmoji = {
-                  'operational': '✅',
-                  'degraded_performance': '⚠️',
-                  'partial_outage': '🚨',
-                  'major_outage': '❌',
-                  'under_maintenance': '🔧'
-                };
+              const statusEmoji = {
+                'operational': '✅',
+                'degraded_performance': '⚠️',
+                'partial_outage': '🚨',
+                'major_outage': '❌',
+                'under_maintenance': '🔧'
+              };
 
+              const nonOperationalServices = allServices.filter(
+                service => service.status !== 'operational'
+              );
+
+              let message;
+
+              if (nonOperationalServices.length > 0) {
                 const servicesStatus = nonOperationalServices.map(service => {
                   const emoji = statusEmoji[service.status] || '❓';
                   const status = service.status.replace('_', ' ').toUpperCase();
@@ -95,10 +100,17 @@ jobs:
                   return emoji + ' *' + service.name + '*\nStatus: ' + status + description + '\nLast Updated: ' + updated;
                 }).join('\n\n');
 
-                const message = '🚨 *GitHub Service Alert*\n\n' + servicesStatus + '\n\n*Overall GitHub Status*: ' + response.status.description;
-                
-                await sendToSlack(message);
+                message = '🚨 *GitHub Service Alert*\n\n' + servicesStatus;
+              } else {
+                const servicesList = allServices.map(service => 
+                  '✅ ' + service.name
+                ).join('\n');
+
+                message = '✅ *All GitHub Services Operational*\n\n' + servicesList;
               }
+
+              message += '\n\n*Overall GitHub Status*: ' + response.status.description;
+              await sendToSlack(message);
               
             } catch (error) {
               console.error('Error:', error);
