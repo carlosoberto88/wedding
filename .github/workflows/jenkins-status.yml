@@ -17,13 +17,13 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install cheerio
+        run: npm install xml2js
           
       - name: Create monitoring script
         run: |
           cat << 'EOL' > monitor-jenkins.js
           const https = require('https');
-          const cheerio = require('cheerio');
+          const xml2js = require('xml2js');
 
           function sendToSlack(message) {
             return new Promise((resolve, reject) => {
@@ -57,27 +57,18 @@ jobs:
 
           function checkJenkinsStatus() {
             return new Promise((resolve, reject) => {
-              https.get('https://status.jenkins.io/', (res) => {
+              https.get('https://status.jenkins.io/index.xml', (res) => {
                 let data = '';
                 res.on('data', (chunk) => data += chunk);
-                res.on('end', () => {
+                res.on('end', async () => {
                   try {
-                    const $ = cheerio.load(data);
-                    const services = [];
-                    
-                    // Extract services and their status
-                    $('body').text().split('\n').forEach(line => {
-                      // Updated regex to catch any status after (?)
-                      const match = line.match(/([\w\.\-]+\.jenkins\.io|\bpublick8s\b)\s+\(\?\)(\w+)/);
-                      if (match) {
-                        services.push({
-                          name: match[1],
-                          status: match[2]
-                        });
-                      }
+                    const parser = new xml2js.Parser({
+                      explicitArray: true,
+                      mergeAttrs: true
                     });
                     
-                    resolve(services);
+                    const result = await parser.parseStringPromise(data);
+                    resolve(result);
                   } catch (error) {
                     reject(error);
                   }
@@ -86,61 +77,60 @@ jobs:
             });
           }
 
+          function isIncidentActive(title, description) {
+            // Check if incident is marked as resolved
+            if (title[0].toLowerCase().includes('[resolved]')) {
+              return false;
+            }
+
+            // Check if there's a final message indicating resolution
+            const desc = description[0];
+            if (desc.includes('[Final Message]') || 
+                desc.toLowerCase().includes('resolved') || 
+                desc.toLowerCase().includes('fixed')) {
+              return false;
+            }
+
+            return true;
+          }
+
           async function main() {
             try {
-              const services = await checkJenkinsStatus();
+              const feed = await checkJenkinsStatus();
               
-              const statusEmoji = {
-                'Operational': '✅',
-                'Disrupted': '🚨',
-                'Degraded': '⚠️',
-                'Down': '❌'
-              };
+              const activeIncidents = feed.rss.channel[0].item
+                .filter(item => isIncidentActive(item.title, item.description))
+                .map(item => ({
+                  title: item.title[0],
+                  date: new Date(item.pubDate[0]),
+                  link: item.link[0],
+                  description: item.description[0]
+                }));
 
-              const nonOperationalServices = services.filter(
-                service => service.status !== 'Operational'
-              );
-
-              let message;
-
-              if (nonOperationalServices.length > 0) {
-                // List problematic services first
-                const problematicServices = nonOperationalServices.map(service => {
-                  const emoji = statusEmoji[service.status] || '❓';
-                  return emoji + ' *' + service.name + '*\nStatus: ' + service.status;
-                }).join('\n\n');
-
-                // List operational services after
-                const operationalServices = services
-                  .filter(service => service.status === 'Operational')
-                  .map(service => '✅ ' + service.name)
-                  .join('\n');
-
-                message = '🚨 *Jenkins Services Alert*\n\n' +
-                         'Services with Issues:\n' + problematicServices + 
-                         '\n\nOperational Services:\n' + operationalServices;
-              } else {
-                const servicesList = services.map(service => 
-                  '✅ ' + service.name
-                ).join('\n');
-
-                message = '✅ *All Jenkins Services Operational*\n\n' + servicesList;
+              if (activeIncidents.length === 0) {
+                await sendToSlack('✅ *Jenkins Status*\nNo active incidents\n\nLast checked: ' + 
+                  new Date().toLocaleString());
+                return;
               }
 
-              // Add statistics
-              const stats = {
-                total: services.length,
-                operational: services.filter(s => s.status === 'Operational').length,
-                issues: services.filter(s => s.status !== 'Operational').length
-              };
+              const message = activeIncidents.map(incident => {
+                let incidentMessage = '🚨 *' + incident.title + '*\n';
+                incidentMessage += 'Started: ' + incident.date.toLocaleString() + '\n';
+                
+                // Clean up and format description
+                let description = incident.description
+                  .replace(/<\/?p>/g, '\n')
+                  .replace(/<\/?[^>]+(>|$)/g, '')  // Remove other HTML tags
+                  .replace(/\n\s*\n/g, '\n')       // Remove extra newlines
+                  .trim();
+                
+                incidentMessage += 'Details: ' + description + '\n';
+                incidentMessage += 'Link: ' + incident.link;
+                return incidentMessage;
+              }).join('\n\n' + '-'.repeat(30) + '\n\n');
 
-              message += '\n\n*Statistics:*\n' +
-                        `Total Services: ${stats.total}\n` +
-                        `Operational: ${stats.operational}\n` +
-                        `With Issues: ${stats.issues}\n\n` +
-                        'Last checked: ' + new Date().toLocaleString();
-              
-              await sendToSlack(message);
+              await sendToSlack('🚨 *Active Jenkins Incidents*\n\n' + message + 
+                '\n\nLast checked: ' + new Date().toLocaleString());
               
             } catch (error) {
               console.error('Error:', error);
