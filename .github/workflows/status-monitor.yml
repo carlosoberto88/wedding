@@ -9,64 +9,96 @@ jobs:
   check-status:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
-      - name: Install Axios
-        run: npm install axios
-
-      - name: Check GitHub Actions Status
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          node-version: '20'
+          
+      - name: Create monitoring script
         run: |
-          node <<EOF
-          const axios = require('axios');
+          cat > monitor.js << 'EOF'
+          const https = require('https');
 
-          async function sendToSlack(message) {
-            try {
-              await axios.post(process.env.SLACK_WEBHOOK_URL, {
+          function sendToSlack(message) {
+            return new Promise((resolve, reject) => {
+              const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+              const data = JSON.stringify({
                 text: message,
                 username: 'GitHub Actions Monitor',
-                icon_emoji: ':octocat:',
+                icon_emoji: ':octocat:'
               });
-            } catch (error) {
-              console.error('Error sending to Slack:', error.message);
-            }
-          }
 
-          async function checkStatus() {
-            try {
-              // Notify that monitoring is starting
-              await sendToSlack('🔍 Testing GitHub Actions monitoring setup...');
-
-              // Check GitHub Actions Status
-              const response = await axios.get(
-                'https://www.githubstatus.com/api/v2/components/8c1bd9c4-9d00-4ac3-8526-7761af0f7620.json'
-              );
-
-              const { status, description, updated_at: updatedAt } = response.data.component;
-
-              const statusEmoji = {
-                operational: '✅',
-                degraded_performance: '⚠️',
-                partial_outage: '🚨',
-                major_outage: '❌',
+              const options = {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': data.length,
+                }
               };
 
-              const emoji = statusEmoji[status] || '❓';
+              const req = https.request(webhookUrl, options, (res) => {
+                if (res.statusCode === 200) {
+                  resolve();
+                } else {
+                  reject(new Error(`Status Code: ${res.statusCode}`));
+                }
+              });
 
-              const message = `GitHub Actions: ${emoji} ${status.replace('_', ' ').toUpperCase()}
-Description: ${description}
-Last Updated: ${new Date(updatedAt).toLocaleString()}`;
+              req.on('error', (error) => reject(error));
+              req.write(data);
+              req.end();
+            });
+          }
 
+          function checkGitHubStatus() {
+            return new Promise((resolve, reject) => {
+              https.get(
+                'https://www.githubstatus.com/api/v2/components/8c1bd9c4-9d00-4ac3-8526-7761af0f7620.json',
+                (res) => {
+                  let data = '';
+                  res.on('data', (chunk) => data += chunk);
+                  res.on('end', () => resolve(JSON.parse(data)));
+                }
+              ).on('error', reject);
+            });
+          }
+
+          async function main() {
+            try {
+              // Send test message
+              await sendToSlack('🔍 Testing GitHub Actions monitoring setup...');
+              
+              // Check status
+              const response = await checkGitHubStatus();
+              const component = response.component;
+              
+              const statusEmoji = {
+                'operational': '✅',
+                'degraded_performance': '⚠️',
+                'partial_outage': '🚨',
+                'major_outage': '❌'
+              };
+              
+              const emoji = statusEmoji[component.status] || '❓';
+              const message = `GitHub Actions: ${emoji} ${component.status.replace('_', ' ').toUpperCase()}
+              Description: ${component.description}
+              Last Updated: ${new Date(component.updated_at).toLocaleString()}`;
+              
               await sendToSlack(message);
+              
             } catch (error) {
-              console.error('Error checking GitHub Actions status:', error);
+              console.error('Error:', error);
               await sendToSlack(`:x: Error checking GitHub Actions status: ${error.message}`);
+              process.exit(1);
             }
           }
 
-          checkStatus();
+          main();
           EOF
+
+      - name: Run monitor
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: node monitor.js
