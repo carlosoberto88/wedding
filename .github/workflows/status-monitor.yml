@@ -9,13 +9,16 @@ jobs:
   check-status:
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+        run: npm install axios
+
       - name: Check GitHub Actions Status
         uses: actions/github-script@v7
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           script: |
-            const axios = require('axios');
+            const axios = require('/home/runner/work/node_modules/axios');
             
             async function sendToSlack(message) {
               try {
@@ -30,6 +33,9 @@ jobs:
             }
             
             try {
+              // Let's send a test message first
+              await sendToSlack('🔍 Testing GitHub Actions monitoring setup...');
+              
               // Check GitHub Actions Status
               const response = await axios.get(
                 'https://www.githubstatus.com/api/v2/components/8c1bd9c4-9d00-4ac3-8526-7761af0f7620.json'
@@ -48,14 +54,12 @@ jobs:
               
               const emoji = statusEmoji[status] || '❓';
               
-              // Only send message if status is not operational
-              if (status !== 'operational') {
-                const message = `GitHub Actions: ${emoji} ${status.replace('_', ' ').toUpperCase()}
-                Description: ${description}
-                Last Updated: ${new Date(updatedAt).toLocaleString()}`;
-                
-                await sendToSlack(message);
-              }
+              // Send status message (for testing, we'll send regardless of status)
+              const message = `GitHub Actions: ${emoji} ${status.replace('_', ' ').toUpperCase()}
+              Description: ${description}
+              Last Updated: ${new Date(updatedAt).toLocaleString()}`;
+              
+              await sendToSlack(message);
               
             } catch (error) {
               console.error('Error:', error);
