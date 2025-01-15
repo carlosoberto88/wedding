@@ -30,20 +30,19 @@ jobs:
                 icon_emoji: ':octocat:'
               });
 
+              const parsedUrl = new URL(webhookUrl);
               const options = {
+                hostname: parsedUrl.hostname,
+                path: parsedUrl.pathname + parsedUrl.search,
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
-                  'Content-Length': data.length,
+                  'Content-Length': Buffer.byteLength(data)
                 }
               };
-
-              const req = https.request(webhookUrl, options, (res) => {
-                if (res.statusCode === 200) {
-                  resolve();
-                } else {
-                  reject(new Error(`Status Code: ${res.statusCode}`));
-                }
+              
+              const req = https.request(options, (res) => {
+                res.on('end', () => resolve());
               });
 
               req.on('error', (error) => reject(error));
@@ -52,46 +51,56 @@ jobs:
             });
           }
 
-          function checkGitHubStatus() {
-            return new Promise((resolve, reject) => {
-              https.get(
-                'https://www.githubstatus.com/api/v2/components/8c1bd9c4-9d00-4ac3-8526-7761af0f7620.json',
-                (res) => {
-                  let data = '';
-                  res.on('data', (chunk) => data += chunk);
-                  res.on('end', () => resolve(JSON.parse(data)));
-                }
-              ).on('error', reject);
-            });
-          }
-
           async function main() {
             try {
-              // Send test message
-              await sendToSlack('🔍 Testing GitHub Actions monitoring setup...');
+              // Check GitHub Status
+              const req = https.get(
+                'https://www.githubstatus.com/api/v2/summary.json',
+                async (res) => {
+                  let data = '';
+                  res.on('data', (chunk) => data += chunk);
+                  res.on('end', async () => {
+                    const response = JSON.parse(data);
+                    
+                    // Find GitHub Actions component
+                    const actionsComponent = response.components.find(
+                      component => component.name.toLowerCase().includes('actions')
+                    );
+
+                    if (!actionsComponent) {
+                      await sendToSlack('⚠️ Could not find GitHub Actions status in the response');
+                      return;
+                    }
+                    
+                    const statusEmoji = {
+                      'operational': '✅',
+                      'degraded_performance': '⚠️',
+                      'partial_outage': '🚨',
+                      'major_outage': '❌'
+                    };
+                    
+                    const emoji = statusEmoji[actionsComponent.status] || '❓';
+                    const message = `GitHub Actions: ${emoji} ${actionsComponent.status.replace('_', ' ').toUpperCase()}
+Status: ${actionsComponent.status}
+Description: ${actionsComponent.description || 'No description available'}
+Last Updated: ${new Date(actionsComponent.updated_at).toLocaleString()}
+
+Overall GitHub Status: ${response.status.indicator}
+${response.status.description}`;
+                    
+                    // Only send message if status is not operational
+                    if (actionsComponent.status !== 'operational') {
+                      await sendToSlack(message);
+                    }
+                  });
+                }
+              );
               
-              // Check status
-              const response = await checkGitHubStatus();
-              const component = response.component;
-              
-              const statusEmoji = {
-                'operational': '✅',
-                'degraded_performance': '⚠️',
-                'partial_outage': '🚨',
-                'major_outage': '❌'
-              };
-              
-              const emoji = statusEmoji[component.status] || '❓';
-              const message = `GitHub Actions: ${emoji} ${component.status.replace('_', ' ').toUpperCase()}
-              Description: ${component.description}
-              Last Updated: ${new Date(component.updated_at).toLocaleString()}`;
-              
-              await sendToSlack(message);
-              
+              req.on('error', async (error) => {
+                await sendToSlack(`:x: Error checking GitHub Actions status: ${error.message}`);
+              });
             } catch (error) {
               console.error('Error:', error);
-              await sendToSlack(`:x: Error checking GitHub Actions status: ${error.message}`);
-              process.exit(1);
             }
           }
 
