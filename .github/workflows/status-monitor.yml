@@ -18,7 +18,7 @@ jobs:
           
       - name: Create monitoring script
         run: |
-          cat > monitor.js << 'EOF'
+          cat << 'EOL' > monitor.js
           const https = require('https');
 
           function sendToSlack(message) {
@@ -72,7 +72,6 @@ jobs:
             try {
               const response = await checkGitHubStatus();
               
-              // Filter out components that are not operational
               const nonOperationalServices = response.components.filter(
                 component => component.status !== 'operational' && 
                             !component.name.includes('Visit www.githubstatus.com')
@@ -89,25 +88,26 @@ jobs:
 
                 const servicesStatus = nonOperationalServices.map(service => {
                   const emoji = statusEmoji[service.status] || '❓';
-                  return `${emoji} *${service.name}*
-Status: ${service.status.replace('_', ' ').toUpperCase()}
-${service.description ? `Description: ${service.description}` : ''}
-Last Updated: ${new Date(service.updated_at).toLocaleString()}`;
+                  const status = service.status.replace('_', ' ').toUpperCase();
+                  const description = service.description ? '\nDescription: ' + service.description : '';
+                  const updated = new Date(service.updated_at).toLocaleString();
+                  
+                  return emoji + ' *' + service.name + '*\nStatus: ' + status + description + '\nLast Updated: ' + updated;
                 }).join('\n\n');
 
-                const message = `🚨 *GitHub Service Alert*\n\n${servicesStatus}\n\n*Overall GitHub Status*: ${response.status.description}`;
+                const message = '🚨 *GitHub Service Alert*\n\n' + servicesStatus + '\n\n*Overall GitHub Status*: ' + response.status.description;
                 
                 await sendToSlack(message);
               }
               
             } catch (error) {
               console.error('Error:', error);
-              await sendToSlack(`:x: Error checking GitHub status: ${error.message}`);
+              await sendToSlack(':x: Error checking GitHub status: ' + error.message);
             }
           }
 
           main();
-          EOF
+          EOL
 
       - name: Run monitor
         env:
