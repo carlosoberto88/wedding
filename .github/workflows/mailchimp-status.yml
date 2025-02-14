@@ -109,7 +109,7 @@ jobs:
                   message += '*Affected Services:*\n' + issues;
                 }
                 
-                await sendToSlack(message);
+                //await sendToSlack(message);
               }
               
             } catch (error) {
