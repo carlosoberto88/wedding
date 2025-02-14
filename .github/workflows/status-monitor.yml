@@ -110,7 +110,7 @@ jobs:
               }
 
               message += '\n\n*Overall GitHub Status*: ' + response.status.description;
-              await sendToSlack(message);
+              //await sendToSlack(message);
               
             } catch (error) {
               console.error('Error:', error);
