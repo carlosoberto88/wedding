@@ -1,0 +1,130 @@
+name: Parse Server Status Monitor
+
+on:
+  push:
+    branches:
+      - test-parse-monitor  # for testing
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Create monitoring script
+        run: |
+          cat << 'EOL' > monitor-parse.js
+          const https = require('https');
+
+          function sendToSlack(message) {
+            return new Promise((resolve, reject) => {
+              const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+              const data = JSON.stringify({
+                text: message,
+                username: 'Parse Server Monitor',
+                icon_emoji: ':parse:'
+              });
+
+              const parsedUrl = new URL(webhookUrl);
+              const options = {
+                hostname: parsedUrl.hostname,
+                path: parsedUrl.pathname + parsedUrl.search,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(data)
+                }
+              };
+              
+              const req = https.request(options, (res) => {
+                res.on('end', () => resolve());
+              });
+
+              req.on('error', (error) => reject(error));
+              req.write(data);
+              req.end();
+            });
+          }
+
+          function checkParseStatus() {
+            return new Promise((resolve, reject) => {
+              const options = {
+                hostname: 'parse.getset.com',
+                path: '/parse/health',
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              };
+
+              const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                  try {
+                    // For testing purposes, always log the response
+                    console.log('Status Code:', res.statusCode);
+                    console.log('Response:', data);
+
+                    if (res.statusCode === 200) {
+                      const response = JSON.parse(data);
+                      resolve({
+                        status: 'ok',
+                        statusCode: res.statusCode,
+                        response
+                      });
+                    } else {
+                      resolve({
+                        status: 'error',
+                        statusCode: res.statusCode,
+                        response: data
+                      });
+                    }
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              });
+
+              req.on('error', (error) => reject(error));
+              req.end();
+            });
+          }
+
+          async function main() {
+            try {
+              const status = await checkParseStatus();
+              
+              // For testing: Always log the status
+              console.log('Current Parse Server Status:', JSON.stringify(status, null, 2));
+              
+              // Send notification if there's an issue
+              if (status.status !== 'ok' || status.statusCode !== 200) {
+                let message = '🚨 *Parse Server Alert*\n\n';
+                message += `Status Code: ${status.statusCode}\n`;
+                message += `Response: ${JSON.stringify(status.response, null, 2)}\n`;
+                
+                await sendToSlack(message);
+              }
+              
+            } catch (error) {
+              console.error('Error:', error);
+              await sendToSlack(':x: Error checking Parse server status: ' + error.message);
+            }
+          }
+
+          main();
+          EOL
+
+      - name: Run monitor
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: node monitor-parse.js
