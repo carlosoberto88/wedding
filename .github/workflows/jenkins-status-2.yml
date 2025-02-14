@@ -141,7 +141,7 @@ jobs:
                   return incidentMessage;
                 }).join('\n\n' + '-'.repeat(30) + '\n\n');
 
-                await sendToSlack('🚨 *Active Jenkins Incidents*\n\n' + message);
+                //await sendToSlack('🚨 *Active Jenkins Incidents*\n\n' + message);
               }
               
               // Exit successfully
