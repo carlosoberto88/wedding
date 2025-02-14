@@ -46,7 +46,19 @@ jobs:
               };
               
               const req = https.request(options, (res) => {
-                res.on('end', () => resolve());
+                let responseData = '';
+                
+                res.on('data', (chunk) => {
+                  responseData += chunk;
+                });
+
+                res.on('end', () => {
+                  if (res.statusCode === 200) {
+                    resolve();
+                  } else {
+                    reject(new Error(`Slack API returned status ${res.statusCode}: ${responseData}`));
+                  }
+                });
               });
 
               req.on('error', (error) => reject(error));
@@ -57,7 +69,7 @@ jobs:
 
           function checkJenkinsStatus() {
             return new Promise((resolve, reject) => {
-              https.get('https://status.jenkins.io/index.xml', (res) => {
+              const req = https.get('https://status.jenkins.io/index.xml', (res) => {
                 let data = '';
                 res.on('data', (chunk) => data += chunk);
                 res.on('end', async () => {
@@ -73,7 +85,15 @@ jobs:
                     reject(error);
                   }
                 });
-              }).on('error', reject);
+              });
+
+              req.on('error', reject);
+              
+              // Set a timeout of 30 seconds
+              req.setTimeout(30000, () => {
+                req.destroy();
+                reject(new Error('Request timed out'));
+              });
             });
           }
 
@@ -124,11 +144,22 @@ jobs:
                 await sendToSlack('🚨 *Active Jenkins Incidents*\n\n' + message);
               }
               
+              // Exit successfully
+              process.exit(0);
+              
             } catch (error) {
               console.error('Error:', error);
               await sendToSlack(':x: Error checking Jenkins status: ' + error.message);
+              // Exit with error
+              process.exit(1);
             }
           }
+
+          // Add timeout to kill the process if it hangs
+          setTimeout(() => {
+            console.error('Process timed out after 60 seconds');
+            process.exit(1);
+          }, 60000);
 
           main();
           EOL
