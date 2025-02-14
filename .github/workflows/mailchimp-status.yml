@@ -1,0 +1,127 @@
+name: Mailchimp Status Monitor
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install jsdom
+          
+      - name: Create monitoring script
+        run: |
+          cat << 'EOL' > monitor-mailchimp.js
+          const https = require('https');
+          const { JSDOM } = require('jsdom');
+
+          function sendToSlack(message) {
+            return new Promise((resolve, reject) => {
+              const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+              const data = JSON.stringify({
+                text: message,
+                username: 'Mailchimp Status Monitor',
+                icon_emoji: ':mailchimp:'
+              });
+
+              const parsedUrl = new URL(webhookUrl);
+              const options = {
+                hostname: parsedUrl.hostname,
+                path: parsedUrl.pathname + parsedUrl.search,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(data)
+                }
+              };
+              
+              const req = https.request(options, (res) => {
+                res.on('end', () => resolve());
+              });
+
+              req.on('error', (error) => reject(error));
+              req.write(data);
+              req.end();
+            });
+          }
+
+          function checkMailchimpStatus() {
+            return new Promise((resolve, reject) => {
+              https.get('https://status.mailchimp.com/', (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                  try {
+                    const dom = new JSDOM(data);
+                    const document = dom.window.document;
+                    
+                    // Get the main status bar
+                    const statusBar = document.getElementById('status-bar');
+                    const isSuccess = statusBar.classList.contains('is-success');
+                    
+                    // Get all service statuses
+                    const services = {};
+                    document.querySelectorAll('.singleton-status').forEach(status => {
+                      const serviceName = status.querySelector('.level-left span').textContent;
+                      const serviceStatus = status.querySelector('.level-right .tag').textContent;
+                      services[serviceName] = serviceStatus;
+                    });
+                    
+                    resolve({
+                      isSuccess,
+                      statusMessage: statusBar.textContent.trim(),
+                      services
+                    });
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              }).on('error', reject);
+            });
+          }
+
+          async function main() {
+            try {
+              const status = await checkMailchimpStatus();
+              
+              // Only send notification if there's an issue
+              if (!status.isSuccess) {
+                let message = '🚨 *Mailchimp Status Alert*\n\n';
+                message += `Status: ${status.statusMessage}\n\n`;
+                
+                // Add any services that aren't showing "Good Service"
+                const issues = Object.entries(status.services)
+                  .filter(([_, status]) => status !== 'Good Service')
+                  .map(([service, status]) => `- ${service}: ${status}`)
+                  .join('\n');
+                
+                if (issues) {
+                  message += '*Affected Services:*\n' + issues;
+                }
+                
+                await sendToSlack(message);
+              }
+              
+            } catch (error) {
+              console.error('Error:', error);
+              await sendToSlack(':x: Error checking Mailchimp status: ' + error.message);
+            }
+          }
+
+          main();
+          EOL
+
+      - name: Run monitor
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: node monitor-mailchimp.js
