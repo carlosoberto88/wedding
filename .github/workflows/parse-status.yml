@@ -112,7 +112,7 @@ jobs:
                 message += `Status Code: ${status.statusCode}\n`;
                 message += `Response: ${JSON.stringify(status.response, null, 2)}\n`;
                 
-                await sendToSlack(message);
+                //await sendToSlack(message);
               }
               
             } catch (error) {
