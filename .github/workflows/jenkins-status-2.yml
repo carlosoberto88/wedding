@@ -1,0 +1,139 @@
+name: Jenkins Status Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install xml2js
+          
+      - name: Create monitoring script
+        run: |
+          cat << 'EOL' > monitor-jenkins.js
+          const https = require('https');
+          const xml2js = require('xml2js');
+
+          function sendToSlack(message) {
+            return new Promise((resolve, reject) => {
+              const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+              const data = JSON.stringify({
+                text: message,
+                username: 'Jenkins Status Monitor',
+                icon_emoji: ':jenkins:'
+              });
+
+              const parsedUrl = new URL(webhookUrl);
+              const options = {
+                hostname: parsedUrl.hostname,
+                path: parsedUrl.pathname + parsedUrl.search,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(data)
+                }
+              };
+              
+              const req = https.request(options, (res) => {
+                res.on('end', () => resolve());
+              });
+
+              req.on('error', (error) => reject(error));
+              req.write(data);
+              req.end();
+            });
+          }
+
+          function checkJenkinsStatus() {
+            return new Promise((resolve, reject) => {
+              https.get('https://status.jenkins.io/index.xml', (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', async () => {
+                  try {
+                    const parser = new xml2js.Parser({
+                      explicitArray: true,
+                      mergeAttrs: true
+                    });
+                    
+                    const result = await parser.parseStringPromise(data);
+                    resolve(result);
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              }).on('error', reject);
+            });
+          }
+
+          function isIncidentActive(title, description) {
+            if (title[0].toLowerCase().includes('[resolved]')) {
+              return false;
+            }
+
+            const desc = description[0];
+            if (desc.includes('[Final Message]') || 
+                desc.toLowerCase().includes('resolved') || 
+                desc.toLowerCase().includes('fixed')) {
+              return false;
+            }
+
+            return true;
+          }
+
+          async function main() {
+            try {
+              const feed = await checkJenkinsStatus();
+              
+              const activeIncidents = feed.rss.channel[0].item
+                .filter(item => isIncidentActive(item.title, item.description))
+                .map(item => ({
+                  title: item.title[0],
+                  date: new Date(item.pubDate[0]),
+                  link: item.link[0],
+                  description: item.description[0]
+                }));
+
+              if (activeIncidents.length > 0) {
+                const message = activeIncidents.map(incident => {
+                  let incidentMessage = '🚨 *' + incident.title + '*\n';
+                  incidentMessage += 'Started: ' + incident.date.toLocaleString() + '\n';
+                  
+                  let description = incident.description
+                    .replace(/<\/?p>/g, '\n')
+                    .replace(/<\/?[^>]+(>|$)/g, '')
+                    .replace(/\n\s*\n/g, '\n')
+                    .trim();
+                  
+                  incidentMessage += 'Details: ' + description + '\n';
+                  incidentMessage += 'Link: ' + incident.link;
+                  return incidentMessage;
+                }).join('\n\n' + '-'.repeat(30) + '\n\n');
+
+                await sendToSlack('🚨 *Active Jenkins Incidents*\n\n' + message);
+              }
+              
+            } catch (error) {
+              console.error('Error:', error);
+              await sendToSlack(':x: Error checking Jenkins status: ' + error.message);
+            }
+          }
+
+          main();
+          EOL
+
+      - name: Run monitor
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: node monitor-jenkins.js
